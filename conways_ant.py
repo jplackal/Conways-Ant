@@ -8,15 +8,58 @@ HEIGHT = 750
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Conways Ant")
 clock = pygame.time.Clock()
-
-
+positions = []
+positions.append([0,0])
+positions.append([0,1])
+positions.append([0,2])
+positions.append([0,3])
+cam_x = 0
+cam_y = 0
+tile_size = 20
+buffer = 50
+max_view_range = 999999999
+view_x = 0
+view_y = 0
 running = True
+def view_check():
+    global cam_x, cam_y, view_x, view_y, tile_size, buffer, max_view_range, HEIGHT
+    bottom = positions[0][1]
+    top = positions[0][1]
+    right = positions[0][0]
+    left = positions[0][0] 
+    for x, y in positions:
+        if y>top:
+            top = y
+        if y<bottom:
+            bottom = y
+        if x>right:
+            right = x
+        if x<left:
+            left = x
+    cam_x = (left+right)/-2
+    cam_y = (bottom+top)/-2
+    width_range = right - left + 1
+    height_range = top - bottom + 1
+
+    # Fit all tiles inside the screen
+    tile_size = int(min(
+        (WIDTH - 2 * buffer) / width_range,
+        (HEIGHT - 2 * buffer) / height_range
+    ))
+    tile_size = max(1, tile_size)
+def draw():
+    global tile_size
+    for x, y in positions:
+        pygame.draw.circle(screen, (255, 255, 255),((x+cam_x) * tile_size+WIDTH/2, (y+cam_y)*tile_size+HEIGHT/2), int(tile_size/2))
+    pygame.draw.circle(screen, (255, 255, 255),(WIDTH/2,HEIGHT/2),0)
 
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
     screen.fill((0, 0, 0))
+    view_check()
+    draw()
     pygame.display.flip()
     clock.tick(60)
 
