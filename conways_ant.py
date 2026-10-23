@@ -8,7 +8,7 @@ HEIGHT = 750
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Conways Ant")
 clock = pygame.time.Clock()
-positions = [[0,1],[1,1],[0,0],[1,0]]
+positions = [[0,0],[1,0],[2,0],[3,0]]
 cam_x = 0
 cam_y = 0
 tile_size = 1
@@ -72,11 +72,5 @@ while running:
     draw()
     pygame.display.flip()
     clock.tick(60)
-    print(view_x)
-
-    print(view_y)
-
-    print(view_tile_size)
-
 
 pygame.quit()
