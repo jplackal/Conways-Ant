@@ -52,8 +52,16 @@ def view_check():
 def draw():
     global tile_size
     for x, y in positions:
-        pygame.draw.circle(screen, (255, 255, 255),((x+view_x) * view_tile_size+WIDTH/2, (y+view_y)*view_tile_size+HEIGHT/2), int(view_tile_size/2))
-    pygame.draw.circle(screen, (255, 255, 255),(WIDTH/2,HEIGHT/2),0)
+        pygame.draw.rect(
+                            screen,
+                            (255, 255, 255),
+                            (
+                                (x + cam_x) * tile_size + WIDTH / 2 - tile_size / 2,
+                                (y + cam_y) * tile_size + HEIGHT / 2 - tile_size / 2,
+                                tile_size,
+                                tile_size
+                            )
+                        )
 
 while running:
     for event in pygame.event.get():
